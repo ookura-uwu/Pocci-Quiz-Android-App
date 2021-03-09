@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "401700244702",
+    "firebase_url": "https://pochi-iqt-20681.firebaseio.com",
+    "project_id": "pochi-iqt-20681",
+    "storage_bucket": "pochi-iqt-20681.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401700244702:android:73aa1bf24ccc5eecf9464f",
+        "android_client_info": {
+          "package_name": "com.example.iqt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401700244702-4gg08g4pfmso0n0oabg246phurun5uuc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.iqt",
+            "certificate_hash": "e5ad6fff4d67bc4fb6c19cacf6aef21405fd6c6e"
+          }
+        },
+        {
+          "client_id": "401700244702-04j50coljtu3of9ivlgks9evmrepkdro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ4sL1zYddWDkykiK5P2XTmtE-Zo4vASI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401700244702-04j50coljtu3of9ivlgks9evmrepkdro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

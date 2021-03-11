@@ -27,7 +27,7 @@
                 android:layout_height="60dp"
                 android:adjustViewBounds="false"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/pocci_logo" />
+                app:srcCompat="@drawable/pocci_logo_transparent" />
 
             <TextView
                 android:id="@+id/textView4"

@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -66,6 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference();
+
 
         welcome = findViewById(R.id.username_text_view);
 
@@ -134,35 +136,39 @@ public class HomeActivity extends AppCompatActivity {
         user = firebaseAuth.getCurrentUser();
         userId = firebaseAuth.getUid();
 
-        SharedPreferences prefs = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = prefs.edit();
+        if (userId != null) {
+            SharedPreferences prefs = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
+            final SharedPreferences.Editor editor = prefs.edit();
 
+            final String userName = String.format("FullName&Uid=%s", userId);
+            final String userPosition = String.format("Position&Uid=%s", userId);
+            final String userPhone = String.format("PhoneNumber&Uid=%s", userId);
+            final String userEmail = String.format("Email&Uid=%s", userId);
 
-        final String userName = String.format("FullName&Uid=%s", userId);
-        final String userPosition = String.format("Position&Uid=%s", userId);
-        final String userPhone = String.format("PhoneNumber&Uid=%s", userId);
-        final String userEmail = String.format("Email&Uid=%s", userId);
+            if (prefs.contains(userName)) {
+                welcome.setText(getString(R.string.welcome_message, prefs.getString(userName, "")));
+            } else {
+                firebaseDatabase.getReference().child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        if (prefs.contains(userName)) {
-            welcome.setText(getString(R.string.welcome_message, prefs.getString(userName, "")));
+                        welcome.setText(getString(R.string.welcome_message, snapshot.child("Name").getValue()));
+                        editor.putString(userName, snapshot.child("Name").getValue().toString());
+                        editor.putString(userPosition, snapshot.child("Position").getValue().toString());
+                        editor.putString(userPhone, snapshot.child("PhoneNumber").getValue().toString());
+                        editor.putString(userEmail, snapshot.child("EmailAddress").getValue().toString());
+                        editor.apply();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d(TAG, error.getMessage());
+                    }
+                });
+            }
         } else {
-            firebaseDatabase.getReference().child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                    welcome.setText(getString(R.string.welcome_message, snapshot.child("Name").getValue()));
-                    editor.putString(userName, snapshot.child("Name").getValue().toString());
-                    editor.putString(userPosition, snapshot.child("Position").getValue().toString());
-                    editor.putString(userPhone, snapshot.child("PhoneNumber").getValue().toString());
-                    editor.putString(userEmail, snapshot.child("EmailAddress").getValue().toString());
-                    editor.apply();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.d(TAG, error.getMessage());
-                }
-            });
+            startActivity(new Intent(this, SignInActivity.class));
+            finish();
         }
     }
 

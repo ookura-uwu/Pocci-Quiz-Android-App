@@ -27,7 +27,7 @@
                 android:layout_height="60dp"
                 android:adjustViewBounds="false"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/pocci_logo" />
+                app:srcCompat="@drawable/pocci_logo_transparent" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -132,6 +132,7 @@
 
                     <!-- Buttons -->
                     <LinearLayout
+                        android:id="@+id/answers_linear_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"

@@ -50,6 +50,8 @@ public class SettingsFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference ref;
 
+    String userId;
+
     ProgressDialog progressDialog;
 
     @Override
@@ -62,7 +64,12 @@ public class SettingsFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         ref = firebaseDatabase.getReference();
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            user = FirebaseAuth.getInstance().getCurrentUser();
+            userId = user.getUid();
+        } else {
+            Log.d("TEST", "EMPTY");
+        }
 
         progressDialog = new ProgressDialog(getContext());
 
@@ -137,7 +144,7 @@ public class SettingsFragment extends Fragment {
         logoutButton = view.findViewById(R.id.home_logout_button);
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
-        String userPhone = String.format("PhoneNumber&Uid=%s", user.getUid());
+        String userPhone = String.format("PhoneNumber&Uid=%s", userId);
 
         if (!prefs.getString(userPhone, "").isEmpty()) {
             phoneNumber.setText(prefs.getString(userPhone, ""));

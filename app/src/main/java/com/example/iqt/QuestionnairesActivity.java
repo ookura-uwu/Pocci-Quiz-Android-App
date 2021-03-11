@@ -19,6 +19,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -76,6 +77,7 @@ public class QuestionnairesActivity extends AppCompatActivity {
     TextView textQuestionnaireCount;
     TextView textScore;
     TextView textTimer;
+    LinearLayout answersLinearLayout;
 
     List<QuestionnaireModel> questionnaireModelList;
     IQTestResult iqTestResult;
@@ -252,6 +254,7 @@ public class QuestionnairesActivity extends AppCompatActivity {
         option3 = findViewById(R.id.rdAnswer3);
         option4 = findViewById(R.id.rdAnswer4);
         next = findViewById(R.id.next_finish_button);
+        answersLinearLayout = findViewById(R.id.answers_linear_layout);
 
         Bundle extras = getIntent().getExtras();
         String position = extras.getString("Position");
@@ -306,6 +309,7 @@ public class QuestionnairesActivity extends AppCompatActivity {
             count++;
             textQuestionnaireCount.setText(getString(R.string.question_count, count, countTotal));
         } else {
+            answersLinearLayout.setVisibility(View.INVISIBLE);
             textQuestionnaire.setText("");
             option1.setText("");
             option2.setText("");

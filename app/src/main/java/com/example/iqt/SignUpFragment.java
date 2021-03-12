@@ -37,9 +37,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static androidx.core.content.ContextCompat.getSystemService;
@@ -273,11 +277,16 @@ public class SignUpFragment extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference("Users");
 
         Map<String, String> data = new HashMap<>();
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+        String currentDate = df.format(c);
+
         data.put("ID", id);
         data.put("Name", name);
         data.put("PhoneNumber", phone);
         data.put("EmailAddress", email);
         data.put("Position", position);
+        data.put("Joined", currentDate);
 
         reference.child(id).setValue(data);
     }

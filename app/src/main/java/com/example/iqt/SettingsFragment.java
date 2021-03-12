@@ -63,13 +63,8 @@ public class SettingsFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         ref = firebaseDatabase.getReference();
-
-        if (user != null) {
-            user = FirebaseAuth.getInstance().getCurrentUser();
-            userId = user.getUid();
-        } else {
-            Log.d("TEST", "EMPTY");
-        }
+        user = firebaseAuth.getCurrentUser();
+        userId = user.getUid();
 
         progressDialog = new ProgressDialog(getContext());
 
@@ -106,6 +101,9 @@ public class SettingsFragment extends Fragment {
                         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                progressDialog.setMessage("Updating Password...");
+                                progressDialog.setCanceledOnTouchOutside(false);
+                                progressDialog.show();
                                 updatePassword(newPassword.getText().toString(), confirmPassword.getText().toString());
                             }
                         });
@@ -169,15 +167,16 @@ public class SettingsFragment extends Fragment {
     }
 
     private void updatePassword(String password, String confirmPassword) {
-
         if (password.equals(confirmPassword)) {
             user.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(getContext(), "Password has been updated", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                     } else {
                         Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                     }
                 }
             });

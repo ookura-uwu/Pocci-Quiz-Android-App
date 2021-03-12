@@ -114,7 +114,6 @@ public class QuestionnairesActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
 
-
         SharedPreferences prefs = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = prefs.edit();
 
@@ -206,6 +205,7 @@ public class QuestionnairesActivity extends AppCompatActivity {
     private void saveExam() {
         Map<String, Object> data = new HashMap<>();
         Map<String, String> examDates = new HashMap<>();
+        Map<String, Object> list = new HashMap<>();
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("MM_dd_yyyy", Locale.getDefault());
@@ -214,7 +214,8 @@ public class QuestionnairesActivity extends AppCompatActivity {
         data.put("(Name)", name);
         data.put("(Userkey)", userId);
         examDates.put("ExamDate", currentDate.replace("_", "-"));
-        data.put(currentDate, examDates);
+        list.put(currentDate, examDates);
+        data.put("ExamsList", list);
         reference.child("TestResults").child(userId).setValue(data);
 
         data.clear();
@@ -229,7 +230,7 @@ public class QuestionnairesActivity extends AppCompatActivity {
 
         data.put("Results", questionsAnswer);
 
-        reference.child("TestResults").child(userId).child(currentDate).updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+        reference.child("TestResults").child(userId).child("ExamsList").child(currentDate).updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

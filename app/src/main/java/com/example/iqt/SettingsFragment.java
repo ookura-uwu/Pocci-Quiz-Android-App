@@ -146,6 +146,7 @@ public class SettingsFragment extends Fragment {
 
         if (!prefs.getString(userPhone, "").isEmpty()) {
             phoneNumber.setText(prefs.getString(userPhone, ""));
+            phoneNumberLayout.setEnabled(false);
             addPhoneNumberButton.setVisibility(View.INVISIBLE);
         }
     }

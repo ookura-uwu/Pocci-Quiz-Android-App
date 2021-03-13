@@ -202,7 +202,7 @@ public class HomeFragment extends Fragment {
             }
         };
 
-        ref.child("TestResults").child(userId).addListenerForSingleValueEvent(valueEventListener);
+        ref.child("TestResults").child(userId).child("ExamsList").addListenerForSingleValueEvent(valueEventListener);
     }
 
     private interface FirebaseCallback {
